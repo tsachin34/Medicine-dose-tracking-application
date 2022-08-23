@@ -32,16 +32,11 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   //list of medicines forms objects
   final List<MedicineType> medicineTypes = [
     MedicineType("Syrup", Image.asset("assets/images/syrup.png"), true),
-    MedicineType(
-        "Pill", Image.asset("assets/images/pills.png"), false),
-    MedicineType(
-        "Capsule", Image.asset("assets/images/capsule.png"), false),
-    MedicineType(
-        "Cream", Image.asset("assets/images/cream.png"), false),
-    MedicineType(
-        "Drops", Image.asset("assets/images/drops.png"), false),
-    MedicineType(
-        "Syringe", Image.asset("assets/images/syringe.png"), false),
+    MedicineType("Pill", Image.asset("assets/images/pills.png"), false),
+    MedicineType("Capsule", Image.asset("assets/images/capsule.png"), false),
+    MedicineType("Cream", Image.asset("assets/images/cream.png"), false),
+    MedicineType("Drops", Image.asset("assets/images/drops.png"), false),
+    MedicineType("Syringe", Image.asset("assets/images/syringe.png"), false),
   ];
 
   //-------------Pill object------------------
@@ -85,31 +80,32 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: deviceHeight * 0.05,
-                child: FittedBox(
-                  child: InkWell(
-                    child: Icon(Icons.arrow_back),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+              Row(
+                children: [
+                  Container(
+                    height: deviceHeight * 0.05,
+                    child: FittedBox(
+                      child: InkWell(
+                        child: Icon(Icons.arrow_back),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: deviceHeight * 0.01,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 15.0),
-                height: deviceHeight * 0.05,
-                child: FittedBox(
-                    child: Text(
-                  "Add Pills",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3
-                      .copyWith(color: Colors.black),
-                )),
+                  Container(
+                    padding: EdgeInsets.only(left: 15.0),
+                    height: deviceHeight * 0.05,
+                    child: FittedBox(
+                        child: Text(
+                      "Add Pills",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3
+                          .copyWith(color: Colors.black),
+                    )),
+                  ),
+                ],
               ),
               SizedBox(
                 height: deviceHeight * 0.03,
@@ -132,7 +128,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                   padding: const EdgeInsets.only(left: 16.0),
                   child: FittedBox(
                     child: Text(
-                      "Medicine form",
+                      "Medicine type",
                       style: TextStyle(
                           color: Colors.grey[800],
                           fontSize: 18.0,
@@ -182,7 +178,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                               ),
                               SizedBox(width: 5),
                               Icon(
-                                Icons.access_time,
+                                Icons.access_time, 
                                 size: 30,
                                 color: Theme.of(context).primaryColor,
                               )
@@ -193,7 +189,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                       ),
                     ),
                     SizedBox(
-                      width: 20,
+                      width: 10,
                     ),
                     Expanded(
                       child: Container(
@@ -234,7 +230,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                   handler: () async => savePill(),
                   color: Theme.of(context).primaryColor,
                   buttonChild: Text(
-                    "Done",
+                    "Set Reminder",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -315,7 +311,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       Pill pill = Pill(
           amount: amountController.text,
           howManyWeeks: howManyWeeks,
-          medicineForm: medicineTypes[medicineTypes.indexWhere((element) => element.isChoose == true)].name,
+          medicineForm: medicineTypes[medicineTypes
+                  .indexWhere((element) => element.isChoose == true)]
+              .name,
           name: nameController.text,
           time: setDate.millisecondsSinceEpoch,
           type: selectWeight,
@@ -332,7 +330,10 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
           //set the notification schneudele
           tz.initializeTimeZones();
           tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-          await _notifications.showNotification(pill.name, pill.amount + " " + pill.medicineForm + " " + pill.type, time,
+          await _notifications.showNotification(
+              pill.name,
+              pill.amount + " " + pill.medicineForm + " " + pill.type,
+              time,
               pill.notifyId,
               flutterLocalNotificationsPlugin);
           setDate = setDate.add(Duration(milliseconds: 604800000));
